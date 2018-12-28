@@ -10,7 +10,10 @@ public:
 	BigInt(int x);
 	BigInt operator+(BigInt& right);
 	BigInt operator-(BigInt& right);
+	BigInt operator*(BigInt& right);
 	int operator<(BigInt& right);
+	int operator>(BigInt& right);
+	int operator==(BigInt& right);
 	void borrow_previous(BigInt& obj, int iterator);
 	void trim(BigInt& obj);
 	explicit BigInt(string x);

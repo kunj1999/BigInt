@@ -1,7 +1,8 @@
 #include <iostream>
 #include "BigInt.h"
 #include <string>
-
+#include <math.h>
+#include "tests.h"
 using namespace std;
 
 void reverse_string(string& obj);
@@ -9,13 +10,168 @@ void reverse_string(string& obj);
 
 int main()
 {
+	/*
 	BigInt a;
 	BigInt b;
 
-	a = BigInt("1");
- 	b = BigInt(1000);
- 	cout<<a<<" - "<<b<<endl<< (a - b)<<endl;
+	a = BigInt("-99");
+	b = BigInt("-99");
+ 	cout<<a<<" * "<<b<<endl<< (a * b)<<endl;
 	return 0;
+	*/
+	cout << (100<100) << endl;
+	BigInt a;
+	BigInt b;
+
+	a = BigInt("-123456789012345678901234567890");
+	b = BigInt("0");
+ 	cout<<a<<" * "<<b<<endl<< (a * b)<<endl;
+
+	BigInt x;
+	BigInt y;
+
+
+	x = BigInt();
+	cout << x << endl;
+	x = BigInt(-100);
+	cout << x << endl;
+	x = BigInt("1231231231231231231");
+	cout << x << endl;
+	//x = BigInt(" )4456615");
+	//cout << x << endl;
+	x = BigInt("-123456789012345678901234567899");
+	cout << x << endl;
+
+	y = BigInt("1");
+		
+	//cout << (x / y) << endl;
+	
+
+	y = BigInt("1");
+	x = BigInt("299999999999999999999");
+
+	cout << x + y << endl;
+
+	y = BigInt("111111111111111111");
+	x = BigInt("111111111111111111");
+
+	cout << x + y << endl;
+
+	x = BigInt(1000);
+	y = BigInt(1);
+
+	cout << "Subtraction" << endl;
+	cout << x - y << endl;
+
+	x = BigInt(4);
+	y = BigInt(-5);
+
+	cout << x - y << endl;
+
+	cout << "testing loop" << endl;
+	for (int i = -10; i < 10; i++) {
+		for (int j = -10; j < 10; j++) {
+			x = BigInt(i);
+			y = BigInt(j);
+			//cout << x << " " << y << endl;
+			cout << i << "+" << j << "=   " << x + y << ":" << i + j << endl;
+		}
+	}
+
+	x = BigInt(100);
+	y = BigInt(-100);
+	cout << "CHECKING THE WEIRD CASE " << x + y << endl;
+
+
+	x = BigInt(-100);
+	cout << "THIS SHOULD BE -100: " << x << endl;
+
+	cout << "TESTING DR.ADAM'S CODE WHEN TESTING GLEN" << endl;
+
+	if (test_all_pairs_addition_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "You win so far..." << endl;
+	}
+	else
+	{
+		cout << "MUAHHAHAHAHAHHAHAH" << endl;
+	}
+
+	if (test_all_pairs_addition_negative_one_hundred_to_positive_one_hundred_with_string_constructor())
+	{
+		cout << "You win so far..." << endl;
+	}
+	else
+	{
+		cout << "MUAHHAHAHAHAHHAHAH" << endl;
+	}
+
+	if (test_carry_over_40_digits())
+	{
+		cout << "Glen rules" << endl;
+	}
+	else
+	{
+		cout << "You are feeble" << endl;
+	}
+	if (test_for_negative_zero())
+	{
+		cout << "woo" << endl;
+	}
+	else
+	{
+		cout << "boo" << endl;
+	}
+	cout << "DOING MY TESTS" << endl;
+	if (test_all_pairs_subtraction_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "Win Sub Test" << endl;
+	}
+	else
+	{
+		cout << "Failed Sub Test" << endl;
+	}
+
+	if (test_all_pairs_subtraction_negative_one_hundred_to_positive_one_hundred_with_string_constructor())
+	{
+		cout << "Win Sub Test 2" << endl;
+	}
+	else
+	{
+		cout << "Failed Sub Test 2" << endl;
+	}
+	if (test_all_pairs_less_than_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "Win Less than Test" << endl;
+	}
+	else
+	{
+		cout << "Fail Less than Test" << endl;
+	}
+	if (test_all_pairs_greater_than_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "Win Greater than Test" << endl;
+	}
+	else
+	{
+		cout << "Fail greater than Test" << endl;
+	}
+	if (test_all_pairs_multiply_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "Win Multiply Test" << endl;
+	}
+	else
+	{
+		cout << "Fail Multiply Test" << endl;
+	}
+	if (test_all_pairs_equality_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "Passed Equality Test" << endl;
+	}
+	else
+	{
+		cout << "Fail Equality Test" << endl;
+	}
 }
 
 BigInt::BigInt()
@@ -25,12 +181,13 @@ BigInt::BigInt()
 }
 
 BigInt::BigInt(int x)
-{
-	data = to_string(x);								//Turn integer into string using built in to_string function
+{							
 	if(x < 0)
 		isNegative = true;								//Check if the integer is negative
 	else
 		isNegative = false;
+	x = abs(x);
+	data = to_string(x);
 }
 
 BigInt::BigInt(string x)
@@ -38,7 +195,7 @@ BigInt::BigInt(string x)
 	int size = x.size();
 	int i = 0;
 
-	while(x[i] == ' ')									//Check the precessing space characters
+	while(x[i] == ' ' || (x[i] != '+' && x[i] != '-' && !isdigit(x[i])))									//Check the precessing space characters
 	{
 		i++;
 	}
@@ -71,6 +228,8 @@ BigInt::BigInt(string x)
 		data.push_back(x[i]);
 		i++;
 	}
+	if(data.size() == 1 && data[0] == '0')
+		isNegative = false;
 }
 
 void reverse_string(string& obj)
@@ -137,6 +296,8 @@ BigInt BigInt::operator+(BigInt& right)
 		}
 		reverse_string(temp_string);
 		retVal = BigInt(temp_string);
+		if(this->isNegative && right.isNegative)
+			retVal.isNegative = true;
 		retVal.isNegative = this->isNegative;
 	}
 	else if(this->isNegative)
@@ -167,9 +328,17 @@ BigInt BigInt::operator-(BigInt& right)
 	li = this->data.size() - 1;
 	ri = right.data.size() - 1 ;
 
+	if(right.isNegative)
+	{
+		right.isNegative = false;
+		retVal = *this + right;
+		right.isNegative = true;
+		return retVal;
+	}
 	if(this->isNegative == right.isNegative)
 	{
 		if(right < *this)
+		{
 			while(li >= 0 && ri >= 0)
 			{
 				sub = static_cast<int> (this->data[li] - 48) - static_cast<int> (right.data[ri] - 48);
@@ -183,6 +352,7 @@ BigInt BigInt::operator-(BigInt& right)
 				li--;
 				ri--;
 			}
+		}
 		else
 		{
 			retVal = right - *this;
@@ -240,7 +410,7 @@ int BigInt::operator<(BigInt& right)
 		return 0;
 	}
 	
-	if(this->isNegative == right.isNegative)
+	if(!this->isNegative && !right.isNegative)
 	{
 		if(this->data.size() == right.data.size())
 		{
@@ -254,13 +424,164 @@ int BigInt::operator<(BigInt& right)
 					return 0;
 				i++;
 			}
-		}
-		if(left_int == right_int)
+			if(left_int == right_int)
 			return -1;
+		}
 		else
 			return (this->data.size() < right.data.size());
 	}
+	else
+	{
+		if(this->data.size() == right.data.size())
+		{
+			while(i < right.data.size())
+			{
+				left_int = static_cast<int> (this->data[i] - 48);
+				right_int = static_cast<int> (right.data[i] - 48);
+				if(left_int > right_int)
+					return 1;
+				else if(left_int < right_int)
+					return 0;
+				i++;
+			}
+			if(left_int == right_int)
+			return -1;
+		}
+		else
+			return (this->data.size() > right.data.size());
+	}
 	return -11111;
+}
+
+int BigInt::operator>(BigInt& right)
+{
+	int left_int = -1;
+	int right_int = 0;
+	int i = 0;
+
+	if(this->isNegative && !right.isNegative)
+	{
+		return 0;
+	}
+	else if(right.isNegative && !this->isNegative)
+	{
+		return 1;
+	}
+
+	if(!this->isNegative && !right.isNegative)
+	{
+		if(this->data.size() == right.data.size())
+		{
+			while(i < right.data.size())
+			{
+				left_int = static_cast<int> (this->data[i] - 48);
+				right_int  = static_cast<int> (right.data[i] - 48);
+				if(left_int > right_int)
+					return 1;
+				else if (left_int < right_int)
+					return 0;
+				i++;
+			}
+			if(left_int == right_int)
+			{
+				return -1;
+			}
+		}
+		else
+		{
+			return (this->data.size() > right.data.size());
+		}
+	}
+	else
+	{
+		if(this->data.size() == right.data.size())
+		{
+			while(i < right.data.size())
+			{
+				left_int = static_cast<int> (this->data[i] - 48);
+				right_int  = static_cast<int> (right.data[i] - 48);
+				if(left_int > right_int)
+					return 0;
+				else if (left_int < right_int)
+					return 1;
+				i++;
+			}
+			if(left_int == right_int)
+			{
+				return -1;
+			}
+		}
+		else
+		{
+			return (this->data.size() < right.data.size());
+		}
+	}
+	return -1111111;
+}
+
+int BigInt::operator==(BigInt& right)
+{
+	if((*this > right) == -1)
+	{
+		return 1;
+	}
+	else 
+		return 0;
+}
+
+BigInt BigInt::operator*(BigInt& right)
+{
+	
+	int carry;
+	int mult;
+	int ph = 0;
+	int li, ri;
+	string temp_string;
+	BigInt retVal = BigInt(0); 
+	BigInt temp_val;
+
+	if(right < *this)
+	{
+		ri = right.data.size() - 1;
+		while(ri >= 0)
+		{
+			li = this->data.size() - 1;
+			for(int i = 0; i < ph; i++)
+				{
+					temp_string.push_back('0');
+				}
+			carry = 0;
+			while(li >= 0)
+			{
+				mult = static_cast<int>(this->data[li] - 48) * static_cast<int>(right.data[ri] - 48) + carry;
+				carry = mult/10;
+				mult %= 10;
+				temp_string.push_back(static_cast<char>(mult + 48));
+				li--;
+			}
+			if(carry)
+				temp_string.push_back(static_cast<char>(carry + 48));
+			reverse_string(temp_string);
+			temp_val = BigInt(temp_string);
+			retVal = retVal + temp_val;
+			temp_string.clear();
+			ri--;
+			ph++;
+		}
+	}
+	else
+	{
+		return (right * *this);
+	}
+	trim(retVal);
+	if(retVal.data[0] != '0')
+	{
+		if(this->isNegative && right.isNegative)
+			retVal.isNegative = false;
+		else if(this->isNegative || right.isNegative)
+			retVal.isNegative = true;
+	}
+	return retVal;
 }
 void BigInt::borrow_previous(BigInt& obj, int iterator)
 {
@@ -296,9 +617,9 @@ void BigInt::trim(BigInt& obj)
 
 ostream& operator<< (ostream& out, const BigInt& right)
 {
-	if(right.isNegative == true)
+	if(right.isNegative)
 	{
-		cout << '-';
+		out << '-';
 	}
 	out << right.data;
 	return out;

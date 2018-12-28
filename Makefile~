@@ -1,5 +1,11 @@
 CC = g++ 
 CFLAGS = -std=c++11
 
-BigInt: BigInt.cpp
-	$(CC) $(CFLAGS) BigInt.cpp -o BigInt
+BigInt: BigI.o test.o
+	$(CC) $(CFLAGS) BigI.o test.o -o BigInt
+BigI.o: BigInt.cpp
+	$(CC) $(CFLAGS) BigInt.cpp -o BigI.o
+test.o: test.cpp
+	$(CC) $(CFLAGS) test.cpp -o test.o
+clean: 
+	rm BigInt
