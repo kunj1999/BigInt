@@ -11,6 +11,8 @@ public:
 	BigInt operator+(BigInt& right);
 	BigInt operator-(BigInt& right);
 	BigInt operator*(BigInt& right);
+	BigInt operator/(BigInt& right);
+	BigInt operator%(BigInt& right);
 	int operator<(BigInt& right);
 	int operator>(BigInt& right);
 	int operator==(BigInt& right);

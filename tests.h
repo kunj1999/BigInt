@@ -1,3 +1,8 @@
+
+//I am not the author of this file, nor have I modified the file.
+//This file was provided by Chris Morales
+
+
 #ifndef TESTS_H
 #define TESTS_H
 
@@ -16,8 +21,8 @@ bool test_all_pairs_subtraction_negative_one_hundred_to_positive_one_hundred_wit
 bool test_all_pairs_less_than_negative_one_hundred_to_positive_one_hundred();
 bool test_all_pairs_greater_than_negative_one_hundred_to_positive_one_hundred();
 bool test_all_pairs_multiply_negative_one_hundred_to_positive_one_hundred();
-//bool test_all_pairs_divide_than_negative_one_hundred_to_positive_one_hundred();
-//bool test_all_pairs_modulo_than_negative_one_hundred_to_positive_one_hundred();
+bool test_all_pairs_divide_than_negative_one_hundred_to_positive_one_hundred();
+bool test_all_pairs_modulo_than_negative_one_hundred_to_positive_one_hundred();
 
 
 
@@ -254,37 +259,37 @@ bool test_all_pairs_greater_than_negative_one_hundred_to_positive_one_hundred()
 	return true;
 }
 
-//bool test_all_pairs_divide_than_negative_one_hundred_to_positive_one_hundred()
-//{
-//	for (int i = -100; i <= 100; i++)
-//	{
-//		for (int j = -100; j <= 100; j++)
-//		{
-//			if (j != 0)
-//			{
-//				BigInt bigI(to_string(i));
-//				BigInt bigJ(to_string(j));
-//				stringstream int_answer;
-//				stringstream big_answer;
-//
-//
-//				int_answer << i << "/" << j << "=" << (i / j);
-//				big_answer << bigI << "/" << bigJ << "=" << (bigI / bigJ);
-//
-//				//cout << int_answer.str() << endl;
-//				//cout << big_answer.str() << endl;
-//				if (int_answer.str() != big_answer.str())
-//				{
-//					cout << "Everything is deborken when i is " << i << " and j is " << j << endl;
-//					return false;
-//				}
-//				int_answer.str("");
-//				big_answer.str("");
-//			}
-//		}
-//	}
-//	return true;
-//}
+bool test_all_pairs_divide_than_negative_one_hundred_to_positive_one_hundred()
+{
+	for (int i = -100; i <= 100; i++)
+	{
+		for (int j = -100; j <= 100; j++)
+		{
+			if (j != 0)
+			{
+				BigInt bigI(to_string(i));
+				BigInt bigJ(to_string(j));
+				stringstream int_answer;
+				stringstream big_answer;
+
+
+				int_answer << i << "/" << j << "=" << (i / j);
+				big_answer << bigI << "/" << bigJ << "=" << (bigI / bigJ);
+
+				//cout << int_answer.str() << endl;
+				//cout << big_answer.str() << endl;
+				if (int_answer.str() != big_answer.str())
+				{
+					cout << "Everything is deborken when i is " << i << " and j is " << j << endl;
+					return false;
+				}
+				int_answer.str("");
+				big_answer.str("");
+			}
+		}
+	}
+	return true;
+}
 
 
 bool test_all_pairs_multiply_negative_one_hundred_to_positive_one_hundred()
@@ -344,37 +349,37 @@ bool test_all_pairs_equality_negative_one_hundred_to_positive_one_hundred()
 	return true;
 }
 
-//bool test_all_pairs_modulo_than_negative_one_hundred_to_positive_one_hundred()
-//{
-//	for (int i = -100; i <= 100; i++)
-//	{
-//		for (int j = -100; j <= 100; j++)
-//		{
-//			if (j != 0)
-//			{
-//				BigInt bigI(to_string(i));
-//				BigInt bigJ(to_string(j));
-//				stringstream int_answer;
-//				stringstream big_answer;
-//
-//
-//				int_answer << i << "%" << j << "=" << (i % j);
-//				big_answer << bigI << "%" << bigJ << "=" << (bigI % bigJ);
-//
-//				//cout << int_answer.str() << endl;
-//				//cout << big_answer.str() << endl;
-//				if (int_answer.str() != big_answer.str())
-//				{
-//					cout << "Everything is deborken when i is " << i << " and j is " << j << endl;
-//					return false;
-//				}
-//				int_answer.str("");
-//				big_answer.str("");
-//			}
-//		}
-//	}
-//	return true;
-//}
+bool test_all_pairs_modulo_than_negative_one_hundred_to_positive_one_hundred()
+{
+	for (int i = -100; i <= 100; i++)
+	{
+		for (int j = -100; j <= 100; j++)
+		{
+			if (j != 0)
+			{
+				BigInt bigI(to_string(i));
+				BigInt bigJ(to_string(j));
+				stringstream int_answer;
+				stringstream big_answer;
+
+
+				int_answer << i << "%" << j << "=" << (i % j);
+				big_answer << bigI << "%" << bigJ << "=" << (bigI % bigJ);
+
+				//cout << int_answer.str() << endl;
+				//cout << big_answer.str() << endl;
+				if (int_answer.str() != big_answer.str())
+				{
+					cout << "Everything is deborken when i is " << i << " and j is " << j << endl;
+					return false;
+				}
+				int_answer.str("");
+				big_answer.str("");
+			}
+		}
+	}
+	return true;
+}
 
 
 

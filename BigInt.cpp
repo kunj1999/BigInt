@@ -15,8 +15,8 @@ int main()
 	BigInt b;
 
 	a = BigInt("-99");
-	b = BigInt("-99");
- 	cout<<a<<" * "<<b<<endl<< (a * b)<<endl;
+	b = BigInt("40");
+ 	cout<<a<<" / "<<b<<endl<< (a % b)<<endl;
 	return 0;
 	*/
 	cout << (100<100) << endl;
@@ -172,6 +172,22 @@ int main()
 	{
 		cout << "Fail Equality Test" << endl;
 	}
+	if(test_all_pairs_divide_than_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "divide passed" << endl;
+	}
+	else
+	{
+		cout << "divide failed" << endl;
+	}
+	if(test_all_pairs_modulo_than_negative_one_hundred_to_positive_one_hundred())
+	{
+		cout << "Modulo passed" << endl;
+	}
+	else
+	{
+		cout << "Modulo failed" << endl;
+	}
 }
 
 BigInt::BigInt()
@@ -186,8 +202,8 @@ BigInt::BigInt(int x)
 		isNegative = true;								//Check if the integer is negative
 	else
 		isNegative = false;
-	x = abs(x);
-	data = to_string(x);
+	x = abs(x);											//Does absolute value on the integer
+	data = to_string(x);								//Turn integer to string using "to_string" function
 }
 
 BigInt::BigInt(string x)
@@ -195,7 +211,7 @@ BigInt::BigInt(string x)
 	int size = x.size();
 	int i = 0;
 
-	while(x[i] == ' ' || (x[i] != '+' && x[i] != '-' && !isdigit(x[i])))									//Check the precessing space characters
+	while(x[i] == ' ' || (x[i] != '+' && x[i] != '-' && !isdigit(x[i])))		//Check the precessing space characters
 	{
 		i++;
 	}
@@ -223,7 +239,7 @@ BigInt::BigInt(string x)
 		exit(1);
 	}
 
-	while(isdigit(x[i]) && i < size)
+	while(isdigit(x[i]) && i < size)					//Take each character and assemble the BigInt object
 	{
 		data.push_back(x[i]);
 		i++;
@@ -232,7 +248,7 @@ BigInt::BigInt(string x)
 		isNegative = false;
 }
 
-void reverse_string(string& obj)
+void reverse_string(string& obj)						//Reverses the string
 {
 	string temp;
 	int i = obj.size() - 1;
@@ -244,7 +260,9 @@ void reverse_string(string& obj)
 	obj = temp;
 }
 
-BigInt BigInt::operator+(BigInt& right)
+
+
+BigInt BigInt::operator+(BigInt& right)				//Does integer addition on the BigInt objects
 {
 	string temp_string = "";
 	BigInt retVal;
@@ -253,7 +271,7 @@ BigInt BigInt::operator+(BigInt& right)
 	int li = this->data.size() - 1;
 	int ri = right.data.size() - 1;
 
-	if(this->isNegative == right.isNegative)
+	if(this->isNegative == right.isNegative)		//Does a normal addition if the both objects are negative or positive
 	{
 		while(li >= 0 && ri >= 0)
 		{
@@ -300,10 +318,10 @@ BigInt BigInt::operator+(BigInt& right)
 			retVal.isNegative = true;
 		retVal.isNegative = this->isNegative;
 	}
-	else if(this->isNegative)
+	else if(this->isNegative)						//If the left hand side is negative, call the subtraction function
 	{
 		this->isNegative = false;
-		retVal = right - *this;
+		retVal = right - *this;						//When calling subtraction function, swap the objects
 		this->isNegative = true;
 		return retVal;
 	}
@@ -328,14 +346,14 @@ BigInt BigInt::operator-(BigInt& right)
 	li = this->data.size() - 1;
 	ri = right.data.size() - 1 ;
 
-	if(right.isNegative)
+	if(right.isNegative)							//If the right hand sied is negative, then change it to positive and call the oveloade+
 	{
 		right.isNegative = false;
 		retVal = *this + right;
 		right.isNegative = true;
 		return retVal;
 	}
-	if(this->isNegative == right.isNegative)
+	if(this->isNegative == right.isNegative)		//Do normal subtraction if both are positive
 	{
 		if(right < *this)
 		{
@@ -353,10 +371,10 @@ BigInt BigInt::operator-(BigInt& right)
 				ri--;
 			}
 		}
-		else
+		else										//If the left Handside is smalled than right then do right - left
 		{
 			retVal = right - *this;
-			retVal.isNegative = true;
+			retVal.isNegative = true;				//Manually assign negative sign
 			trim(retVal);
 			return retVal;
 		}
@@ -377,14 +395,14 @@ BigInt BigInt::operator-(BigInt& right)
 		reverse_string(temp_string);
 		retVal = BigInt(temp_string);
 	}
-	else if(this->isNegative)
+	else if(this->isNegative)						//If left handside is negative, change right handside to negative and call overload+
 	{
 		right.isNegative = true;
 		retVal = *this + right;
 		right.isNegative = false;
 		return retVal;
 	}
-	else
+	else											//If right handside is negative, change right handside to positive and call overload+
 	{
 		right.isNegative = false;
 		retVal = *this + right;
@@ -401,20 +419,20 @@ int BigInt::operator<(BigInt& right)
 	int right_int = 0;
 	int i = 0;
 
-	if(this->isNegative && !right.isNegative)
+	if(this->isNegative && !right.isNegative)		//if(-left < right) return true;
 	{
 		return 1;
 	}
-	else if(right.isNegative && !this->isNegative)
-	{
+	else if(right.isNegative && !this->isNegative)	//if(left < -right) return false;
+ 	{
 		return 0;
 	}
 	
-	if(!this->isNegative && !right.isNegative)
+	if(!this->isNegative && !right.isNegative)		//Check if both are negative values
 	{
-		if(this->data.size() == right.data.size())
+		if(this->data.size() == right.data.size())	//Check if the size of the data are the same
 		{
-			while(i < right.data.size())
+			while(i < right.data.size())			//Compare each character starting from the left
 			{
 				left_int = static_cast<int> (this->data[i] - 48);
 				right_int = static_cast<int> (right.data[i] - 48);
@@ -428,7 +446,7 @@ int BigInt::operator<(BigInt& right)
 			return -1;
 		}
 		else
-			return (this->data.size() < right.data.size());
+			return (this->data.size() < right.data.size());		//Return true or false based on the size of the data
 	}
 	else
 	{
@@ -453,7 +471,7 @@ int BigInt::operator<(BigInt& right)
 	return -11111;
 }
 
-int BigInt::operator>(BigInt& right)
+int BigInt::operator>(BigInt& right)				//Similar algorith to that of overload<
 {
 	int left_int = -1;
 	int right_int = 0;
@@ -521,7 +539,7 @@ int BigInt::operator>(BigInt& right)
 
 int BigInt::operator==(BigInt& right)
 {
-	if((*this > right) == -1)
+	if((*this > right) == -1)							//If the the overloaded greater than return -1, then objects are equal to each other
 	{
 		return 1;
 	}
@@ -540,10 +558,10 @@ BigInt BigInt::operator*(BigInt& right)
 	BigInt retVal = BigInt(0); 
 	BigInt temp_val;
 
-	if(right < *this)
+	if(right < *this)									//Check which object is the smallest for time optimization.
 	{
 		ri = right.data.size() - 1;
-		while(ri >= 0)
+		while(ri >= 0)									//Do multiplication one letter at a time
 		{
 			li = this->data.size() - 1;
 			for(int i = 0; i < ph; i++)
@@ -574,17 +592,122 @@ BigInt BigInt::operator*(BigInt& right)
 		return (right * *this);
 	}
 	trim(retVal);
-	if(retVal.data[0] != '0')
+	if(retVal.data[0] != '0')							//Manually assign the negative sign to returning object
 	{
-		if(this->isNegative && right.isNegative)
+		if(this->isNegative == right.isNegative)
 			retVal.isNegative = false;
-		else if(this->isNegative || right.isNegative)
+		else 
 			retVal.isNegative = true;
 	}
 	return retVal;
 }
-void BigInt::borrow_previous(BigInt& obj, int iterator)
+
+BigInt BigInt::operator/(BigInt& right)
 {
+	BigInt retVal(0);
+	BigInt temp_val(1);
+	BigInt sub;
+
+	if(this->isNegative && right.isNegative)			//Check if the both objects are negative
+	{
+		this->isNegative = false;						//If they are then change them to positive and call the overload/ with modified negative sign
+		right.isNegative = false;
+		retVal = *this/right;
+		return retVal;
+	}
+	else if(this->isNegative || right.isNegative)
+	{
+		if(this->isNegative)							//If only left or right is negative, then change it to positve and call the overload/
+		{
+			this->isNegative = false;
+			retVal = *this/right;
+			this->isNegative = true; 
+		}
+		else
+		{
+			right.isNegative = false;
+			retVal = *this/right;
+			right.isNegative = true;
+		}
+		if(retVal.data[0] != '0')
+			retVal.isNegative = true;
+		return retVal;
+	}
+	if(right.data[0] == '0' && right.data.size() == 1)	//Checks if right handside is 0, in which case it's illegal
+	{
+		cout << "Cannot divide by Zero!" << endl;
+		cout << "Exiting... ";
+		exit(1);
+	}
+
+	sub = *this-right;									//Call the subtraction overloaded to see how many time right handside subtracts left handside
+	while(!sub.isNegative)
+	{
+		retVal = retVal + temp_val;
+		sub = sub-right;
+
+	}
+	trim(retVal);
+	return retVal;
+}
+BigInt BigInt::operator%(BigInt& right)					//similar algorith as the overload/, but insted return the carry object.
+{
+	BigInt retVal;
+	BigInt sub;
+
+	if(this->isNegative && right.isNegative)
+	{
+		this->isNegative = false;
+		right.isNegative = false;
+		retVal = *this%right;
+		if(retVal.data[0] != '0')
+				retVal.isNegative = true;
+		return retVal;
+	}
+	else if(this->isNegative || right.isNegative)
+	{
+		if(this->isNegative)
+		{
+			this->isNegative = false;
+			retVal = *this%right;
+			this->isNegative = true;
+			if(retVal.data[0] != '0')
+				retVal.isNegative = true;
+			return retVal;
+		}
+		else
+		{
+			right.isNegative = false;
+			retVal = *this%right;
+			right.isNegative = true;
+			return retVal;
+		}
+	}
+	if(right.data[0] == '0' && right.data.size() == 1)
+	{
+		cout << "Cannot divide by Zero!" << endl;
+		cout << "Exiting... " << endl;
+		exit(1);
+	}
+
+	sub = *this-right;
+	if(sub.isNegative)
+	{
+		retVal = *this;
+		return retVal;
+	}
+
+	while(!sub.isNegative)
+	{
+		retVal = sub;
+		sub = sub - right;
+	}
+	trim(retVal);
+	return retVal;
+}
+
+void BigInt::borrow_previous(BigInt& obj, int iterator)		//Reduces the value of the previous character by one and stores it back
+{															//Used for subtraction
 	int b;
 	char c;
 	b = static_cast<int> (obj.data[iterator] - 48);
@@ -600,7 +723,7 @@ void BigInt::borrow_previous(BigInt& obj, int iterator)
 	obj.data[iterator] = c;
 }
 
-void BigInt::trim(BigInt& obj)
+void BigInt::trim(BigInt& obj)								//Gets rid of leading zero in the data
 {
 	int size;
 	string str = obj.data;
@@ -615,7 +738,7 @@ void BigInt::trim(BigInt& obj)
 	obj.data = str;
 }
 
-ostream& operator<< (ostream& out, const BigInt& right)
+ostream& operator<< (ostream& out, const BigInt& right)		//Prints out the BigInt object
 {
 	if(right.isNegative)
 	{
